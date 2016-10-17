@@ -8,7 +8,7 @@
 
 import os
 import ast
-import dbasetools as dbt
+from . import dbasetools as dbt
 import numpy as np
 
 # ------------------------------------------------------------------------------
@@ -208,10 +208,10 @@ def check_common_args(args, function_name,
                                                  verbose=0)
         args.skypos = [args.ra, args.dec]
         if args.verbose:
-            print "Recentering on ["+str(args.ra)+", "+str(args.dec)+"]"
-            print "Setting radius to "+str(args.radius)
-            print ("Setting annulus to ["+str(args.annulus1)+", "+
-                   str(args.annulus2)+"]")
+            print("Recentering on ["+str(args.ra)+", "+str(args.dec)+"]")
+            print("Setting radius to "+str(args.radius))
+            print(("Setting annulus to ["+str(args.annulus1)+", "+
+                   str(args.annulus2)+"]"))
 
     if args.skypos:
         if np.array(args.skypos).shape != (2,):

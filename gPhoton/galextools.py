@@ -82,7 +82,7 @@ def aper2deg(apercode):
     """
 
     if not apercode == int(apercode) or apercode < 1 or apercode > 7:
-        print "Error: `apercode` must be an integer in interval [1,7]."
+        print("Error: `apercode` must be an integer in interval [1,7].")
         return None
 
     apers = np.array([1.5, 2.3, 3.8, 6.0, 9.0, 12.8, 17.3, 30., 60., 90.])/3600.
@@ -110,7 +110,7 @@ def apcorrect1(radius, band):
     # [Future]: Handle arrays.
 
     if not band in ['NUV', 'FUV']:
-        print "Invalid band."
+        print("Invalid band.")
         return
 
     aper = np.array([1.5, 2.3, 3.8, 6.0, 9.0, 12.8, 17.3, 30., 60., 90.])/3600.
@@ -157,7 +157,7 @@ def apcorrect2(radius, band):
     # [Future]: Handle arrays.
 
     if not band in ['NUV', 'FUV']:
-        print "Invalid band."
+        print("Invalid band.")
         return
 
     aper = np.array([1.5, 2.3, 3.8, 6.0, 9.0, 12.8, 17.3])/3600.
@@ -397,7 +397,7 @@ def flat_scale_parameters(band):
         flat_correct_1 = -2.8843099e-10
         flat_correct_2 = 0.000
     else:
-        print "Band not specified."
+        print("Band not specified.")
         exit(1)
 
     # It turns out that flat_correct and flat_t0 never get used.
@@ -430,7 +430,7 @@ def compute_flat_scale(t, band, verbose=0):
     """
 
     if verbose:
-        print "Calculating flat scale for t=", t, ", and band=", band
+        print("Calculating flat scale for t=", t, ", and band=", band)
 
     (flat_correct_0, flat_correct_1,
      flat_correct_2) = flat_scale_parameters(band)
@@ -450,7 +450,7 @@ def compute_flat_scale(t, band, verbose=0):
             flat_scale *= 1.018 if t >= 881881215.995 else 1.
 
     if verbose:
-        print "         flat scale = ", flat_scale
+        print("         flat scale = ", flat_scale)
 
     return flat_scale
 # ------------------------------------------------------------------------------

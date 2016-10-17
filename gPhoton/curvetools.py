@@ -9,12 +9,12 @@ import numpy as np
 import pandas as pd
 import os
 # gPhoton specific
-import gQuery
-from gQuery import tscale
-import MCUtils as mc
-import dbasetools as dbt
-import galextools as gxt
-import cal
+from . import gQuery
+from .gQuery import tscale
+from . import MCUtils as mc
+from . import dbasetools as dbt
+from . import galextools as gxt
+from . import cal
 
 # ------------------------------------------------------------------------------
 def gphot_params(band, skypos, radius, annulus=None, verbose=0, detsize=1.25,
@@ -548,7 +548,7 @@ def maskwarning(band, bin_ix, events, verbose=0, mapkey='H', mode=None):
                                         events['photons']['dec'])[bin_ix]<
                                         events['params']['annulus'][1]))
     else:
-        print 'Unknown mask flag mode of: {m}'.format(m=mode)
+        print(('Unknown mask flag mode of: {m}'.format(m=mode)))
         raise
 
     for xoff in [-1,0,1]:
@@ -1155,7 +1155,7 @@ def write_curve(band, ra0, dec0, radius, csvfile=None, annulus=None,
                     detsize=detsize)
     if not data:
         if verbose:
-            print 'No events available at the requested location and time(s).'
+            print('No events available at the requested location and time(s).')
         return None
 
     exclude_keys = ['photons', 'params']
@@ -1226,19 +1226,19 @@ def write_curve(band, ra0, dec0, radius, csvfile=None, annulus=None,
         except:
             raise
             if verbose > 1:
-                print 'Unable to build dataframe.'
+                print('Unable to build dataframe.')
         try:
             output.to_csv(csvfile, index=False, mode=iocode, columns=columns)
         except:
-            print 'Unable to write to: '+str(csvfile)
+            print(('Unable to write to: '+str(csvfile)))
 
     else:
         if verbose > 2:
-            print "No CSV file requested."
+            print("No CSV file requested.")
 
         if verbose or (not verbose and not csvfile):
-            print "AB Magnitudes:               "
-            print data['mag']
+            print("AB Magnitudes:               ")
+            print((data['mag']))
 
     if photoncsvfile:
         pd.DataFrame(data['photons']).to_csv(photoncsvfile,index=False)

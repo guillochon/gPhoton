@@ -5,18 +5,18 @@
 .. moduleauthor:: Chase Million <chase.million@gmail.com>
 """
 
-import gQuery
+from . import gQuery
 import numpy as np
-import MCUtils as mc
+from . import MCUtils as mc
 from astropy import wcs as pywcs
 from astropy.io import fits as pyfits
 import scipy.misc
 import scipy.special # erfc
 import scipy.ndimage
-import dbasetools as dbt
-import galextools as gxt
-import curvetools as ct
-from gQuery import tscale
+from . import dbasetools as dbt
+from . import galextools as gxt
+from . import curvetools as ct
+from .gQuery import tscale
 from gPhoton import __version__
 
 # ------------------------------------------------------------------------------
@@ -217,8 +217,8 @@ def makemap(band, skypos, trange, skyrange, response=False, verbose=0,
                   'x':photons[:, 5], 'y':photons[:, 6]}
     except IndexError:
         if verbose > 2:
-            print ('No events found at {s} +/- {r} in {t}.'.format(
-                s=skypos, r=skyrange, t=trange))
+            print(('No events found at {s} +/- {r} in {t}.'.format(
+                s=skypos, r=skyrange, t=trange)))
         return np.zeros(np.array(imsz,dtype='int32'))
 
     # Trim the data on detsize
@@ -434,11 +434,11 @@ def movie(band, skypos, tranges, skyrange, framesz=0, verbose=0,
 
     # Not defining stepsz creates a single full depth image.
     if verbose:
-        print tranges
+        print(tranges)
 
     if coadd or (len(tranges) == 1 and not framesz) or (not len(tranges)):
         if verbose > 2:
-            print 'Coadding across '+str(tranges)
+            print('Coadding across '+str(tranges))
 
         mv = integrate_map(band, skypos, tranges, skyrange,
                            verbose=verbose, memlight=memlight,
@@ -463,7 +463,7 @@ def movie(band, skypos, tranges, skyrange, framesz=0, verbose=0,
                                     response=response, detsize=detsize)
                 if img.min() == 0 and img.max() == 0:
                     if verbose > 1:
-                        print 'No data in frame {i}. Skipping...'.format(i=i)
+                        print('No data in frame {i}. Skipping...'.format(i=i))
                     continue
                 try:
                     mv.append(img)
@@ -632,7 +632,7 @@ def write_images(band, skypos, tranges, skyrange, write_cnt=None,
                                True if i in ['int', 'int_coadd'] else False))
         if img.tolist() is None:
             if verbose:
-                print 'No data found.'
+                print('No data found.')
             return
 
         # Add a conditional so that this is only created for multi-frame images
@@ -646,7 +646,7 @@ def write_images(band, skypos, tranges, skyrange, write_cnt=None,
         hdulist = pyfits.HDUList([hdu, tbl]) if tbl else pyfits.HDUList([hdu])
 
         if verbose:
-            print 'Writing image to {o}'.format(o=imtypes[i])
+            print('Writing image to {o}'.format(o=imtypes[i]))
 
         hdulist.writeto(imtypes[i], clobber=overwrite)
 

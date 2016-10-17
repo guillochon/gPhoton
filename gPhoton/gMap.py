@@ -9,9 +9,9 @@
 
 import os
 import argparse
-from imagetools import write_images
-import dbasetools as dbt
-import gphoton_args as gargs
+from .imagetools import write_images
+from . import dbasetools as dbt
+from . import gphoton_args as gargs
 import numpy as np
 
 # ------------------------------------------------------------------------------
@@ -115,7 +115,7 @@ def gmap(band, cntfile=None, coadd=None, detsize=1.1, intfile=None,
                                     maxgap=maxgap, minexp=minexp,
                                     detsize=detsize, skyrange=skyrange)
     if np.array(trange).size==0:
-        print 'No data available.'
+        print('No data available.')
         return
 
     if len(np.array(trange).shape) == 1:
@@ -256,13 +256,13 @@ def __main__():
     args = check_args(args)
 
     if args.verbose:
-        print '{a} image(s) at {pos}'.format(
-            a='Writing' if not args.coadd else 'Coadding', pos=args.skypos)
-        print '		of dimensions {w}x{h} degrees'.format(
-            w=args.skyrange[0], h=args.skyrange[1])
-        print '		with a virtual detector {d} degrees across'.format(
-            d=args.detsize)
-        print '		in time range(s): {t}'.format(t=repr(args.trange))
+        print('{a} image(s) at {pos}'.format(
+            a='Writing' if not args.coadd else 'Coadding', pos=args.skypos))
+        print('		of dimensions {w}x{h} degrees'.format(
+            w=args.skyrange[0], h=args.skyrange[1]))
+        print('		with a virtual detector {d} degrees across'.format(
+            d=args.detsize))
+        print('		in time range(s): {t}'.format(t=repr(args.trange)))
 
     gmap(band=args.band, cntfile=args.cntfile,
          coadd=args.coadd, detsize=args.detsize, intfile=args.intfile,

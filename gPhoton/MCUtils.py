@@ -158,17 +158,17 @@ def manage_requests2(query, maxcnt=100, wait=1, timeout=60., verbose=0):
             successful_response = True
         except requests.exceptions.ConnectionError as e:
             if verbose:
-                print "Domain does not resolve."
+                print("Domain does not resolve.")
             cnt += 1
             continue
         except requests.exceptions.ConnectTimeout as e:
             if verbose:
-                print "Connection time out."
+                print("Connection time out.")
             cnt += 1
             continue
         except:
             if verbose:
-                print 'bad query? {q}'.format(q=query)
+                print('bad query? {q}'.format(q=query))
             cnt += 1
             continue
         if r.json()['status'] == 'EXECUTING':
@@ -181,11 +181,11 @@ def manage_requests2(query, maxcnt=100, wait=1, timeout=60., verbose=0):
                 print_inline('COMPLETE')
             break
         elif r.json()['status'] == 'ERROR':
-            print 'ERROR'
-            print 'Unsuccessful query: {q}'.format(q=query)
+            print('ERROR')
+            print('Unsuccessful query: {q}'.format(q=query))
             raise ValueError(r.json()['msg'])
         else:
-            print 'Unknown return: {s}'.format(s=r.json()['status'])
+            print('Unknown return: {s}'.format(s=r.json()['status']))
             cnt += 1
             continue
 
@@ -249,7 +249,7 @@ def get_fits_data(filename, dim=0, verbose=0):
     """
 
     if verbose:
-        print "         ", filename
+        print("         ", filename)
 
     hdulist = pyfits.open(filename, memmap=1)
 

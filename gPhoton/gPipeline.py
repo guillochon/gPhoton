@@ -9,7 +9,7 @@
 .. moduleauthor:: Chase Million <chase.million@gmail.com>
 """
 
-from PhotonPipe import photonpipe
+from .PhotonPipe import photonpipe
 import argparse
 
 # ------------------------------------------------------------------------------
@@ -105,15 +105,15 @@ def check_args(args):
     """
 
     if not args.raw6file:
-        print "Must specify a RAW6 filename (--raw6)."
+        print("Must specify a RAW6 filename (--raw6).")
         raise SystemExit
 
     if not args.scstfile:
-        print "Must specify a SCST filename (--scst)."
+        print("Must specify a SCST filename (--scst).")
         raise SystemExit
 
     if not args.outbase:
-        print "Must specify an output base filename (--outbase)."
+        print("Must specify an output base filename (--outbase).")
         raise SystemExit
 
     if args.aspfile:
@@ -125,7 +125,7 @@ def check_args(args):
 	# If the band is not explicity called, attempt to derive it from the raw6
     # filename.
     if not args.band:
-        print "Determining band from raw6 filename..."
+        print("Determining band from raw6 filename...")
         if '-fd-raw6' in args.raw6file:
             args.band = 'FUV'
         elif '-nd-raw6' in args.raw6file:
@@ -137,7 +137,7 @@ def check_args(args):
     else:
         args.band = args.band.upper()
         if not args.band in ["NUV", "FUV"]:
-            print "Band must be NUV or FUV. "
+            print("Band must be NUV or FUV. ")
             raise SystemExit
 
     return args

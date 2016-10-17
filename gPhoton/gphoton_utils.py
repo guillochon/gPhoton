@@ -10,7 +10,7 @@ from astropy.time import Time
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-import galextools as gt
+from . import galextools as gt
 
 # ------------------------------------------------------------------------------
 def read_lc(csvfile, comment='|'):
@@ -78,7 +78,7 @@ def model_errors(catmag, band, sigma=3., mode='mag', trange=[1, 1600]):
 	"""
 
     if mode != 'cps' and mode != 'mag':
-        print 'mode must be set to "cps" or "mag"'
+        print('mode must be set to "cps" or "mag"')
         exit(0)
 
     x = np.arange(trange[0], trange[1])
@@ -127,7 +127,7 @@ def data_errors(catmag, band, t, sigma=3., mode='mag'):
     """
 
     if mode != 'cps' and mode != 'mag':
-        print 'mode must be set to "cps" or "mag"'
+        print('mode must be set to "cps" or "mag"')
         exit(0)
 
     cnt = gt.mag2counts(catmag, band)

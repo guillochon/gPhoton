@@ -10,12 +10,12 @@
 
 import ast
 import argparse
-from regtestutils import datamaker
-import MCUtils as mc
+from .regtestutils import datamaker
+from . import MCUtils as mc
 from gPhoton import gFind
 import numpy as np
 import os
-import galextools as gt
+from . import galextools as gt
 
 # ------------------------------------------------------------------------------
 def find_random_positions(rarange=[0., 360.], decrange=[-90., 90.], nsamples=10,
@@ -113,21 +113,21 @@ def calrun(outfile, band, nsamples=10, seed=323, rarange=[0., 360.],
                                       nsamples=nsamples, seed=seed)
 
     if verbose:
-        print 'Running {n} random samples with seed of {seed}.'.format(
-            n=nsamples, seed=seed)
-        print 'Bounded by RA:[{r0},{r1}] and Dec:[{d0},{d1}]'.format(
-            r0=rarange[0], r1=rarange[1], d0=decrange[0], d1=decrange[1])
-        print 'Actual positions used will be:'
-        print '{pos}'.format(pos=zip(ra, dec))
+        print('Running {n} random samples with seed of {seed}.'.format(
+            n=nsamples, seed=seed))
+        print('Bounded by RA:[{r0},{r1}] and Dec:[{d0},{d1}]'.format(
+            r0=rarange[0], r1=rarange[1], d0=decrange[0], d1=decrange[1]))
+        print('Actual positions used will be:')
+        print('{pos}'.format(pos=zip(ra, dec)))
 
     for skypos in zip(ra, dec):
         expt = gFind(skypos=skypos, band=band, quiet=True)[band]['expt']
         if exprange[0] <= expt <= exprange[1]:
-            print skypos, expt, True
+            print(skypos, expt, True)
             datamaker(band, skypos, outfile, maglimit=maglimit, verbose=verbose,
                 searchradius=0.01)
         else:
-            print skypos, expt, False
+            print(skypos, expt, False)
 
     return
 # ------------------------------------------------------------------------------

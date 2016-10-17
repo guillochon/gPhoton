@@ -7,10 +7,10 @@
 """
 
 import numpy as np
-import gQuery
-from MCUtils import print_inline, area, distance, angularSeparation
-from galextools import GPSSECS, zpmag, aper2deg
-from gQuery import tscale
+from . import gQuery
+from .MCUtils import print_inline, area, distance, angularSeparation
+from .galextools import GPSSECS, zpmag, aper2deg
+from .gQuery import tscale
 
 # ------------------------------------------------------------------------------
 def get_aspect(band, skypos, trange=[6e8, 11e8], verbose=0, detsize=1.25):
@@ -166,10 +166,10 @@ def get_valid_times(band, skypos, trange=None, detsize=1.1, verbose=0,
                                    dtype='float64')[:, 0]/tscale))
         except IndexError:
             if verbose:
-                print "No exposure time available at {pos}".format(pos=skypos)
+                print("No exposure time available at {pos}".format(pos=skypos))
             return np.array([], dtype='float64')
         except TypeError:
-            print "Is one of the inputs malformed?"
+            print("Is one of the inputs malformed?")
             raise
         except:
             raise
@@ -302,7 +302,7 @@ def stimcount_shuttered(band, trange, verbose=0, timestamplist=False):
                       dtype='float64')[:, 0]/gQuery.tscale)
     except IndexError: # Shutter this whole time range.
         if verbose:
-            print 'No data in {t0},{t1}'.format(t0=trange[0], t1=trange[1])
+            print('No data in {t0},{t1}'.format(t0=trange[0], t1=trange[1]))
         return 0
 
     times = np.sort(np.unique(np.append(t, trange)))
@@ -353,7 +353,7 @@ def globalcount_shuttered(band, trange, verbose=0, timestamplist=False):
                       dtype='float64')[:, 0]/gQuery.tscale)
     except IndexError: # Shutter this whole time range.
         if verbose:
-            print 'No data in {t0},{t1}'.format(t0=trange[0], t1=trange[1])
+            print('No data in {t0},{t1}'.format(t0=trange[0], t1=trange[1]))
         return 0
 
     times = np.sort(np.unique(np.append(t, trange)))
@@ -495,7 +495,7 @@ def exposure(band, trange, verbose=0):
                      dtype='float64')[:, 0]/gQuery.tscale
     except IndexError: # Shutter this whole time range.
         if verbose:
-            print 'No data in {t0},{t1}'.format(t0=trange[0], t1=trange[1])
+            print('No data in {t0},{t1}'.format(t0=trange[0], t1=trange[1]))
         return 0.
 
     shutter = compute_shutter(band, trange, verbose=verbose, timestamplist=t)
@@ -866,7 +866,7 @@ def get_mags(band, ra0, dec0, radius, maglimit, mode='coadd',
                                                            maglimit=maglimit),
                                        verbose=verbose))
         if not len(out):
-            print "Warning: No sources found!"
+            print("Warning: No sources found!")
             return None
         return {'ra':out[:, 0], 'dec':out[:, 1],
                 'FUV':{'mag':out[:, 3], 1:out[:, 9]+zpf, 2:out[:, 10]+zpf,
@@ -878,7 +878,7 @@ def get_mags(band, ra0, dec0, radius, maglimit, mode='coadd',
     elif mode == 'visit':
         return get_mcat_data([ra0,dec0],radius)
     else:
-        print "mode must be in [coadd,visit]"
+        print("mode must be in [coadd,visit]")
         return None
 # ------------------------------------------------------------------------------
 
@@ -1095,7 +1095,7 @@ def nearest_source(band, skypos, radius=0.01, maglimit=20.0, verbose=0,
 
     if not len(out) and band == 'FUV':
         if verbose:
-            print "No nearby MCAT source found in FUV. Trying NUV..."
+            print("No nearby MCAT source found in FUV. Trying NUV...")
         band = 'NUV'
         out = np.array(gQuery.getArray(gQuery.mcat_sources(band, skypos[0],
                                                            skypos[1], radius,
@@ -1104,13 +1104,13 @@ def nearest_source(band, skypos, radius=0.01, maglimit=20.0, verbose=0,
 
     if not len(out) and band == 'NUV':
         if verbose:
-            print "No nearby MCAT source found. Using input sky position."
+            print("No nearby MCAT source found. Using input sky position.")
         return skypos[0], skypos[1], 0.01
 
     dist = angularSeparation(out[:, 0], out[:, 1], skypos[0], skypos[1])
 
     if verbose > 1:
-        print "Finding nearest among "+str(len(dist))+" nearby sources."
+        print("Finding nearest among "+str(len(dist))+" nearby sources.")
 
     # Note that this doesn't cope with multiple entries for the same source.
     s = out[np.where(dist == dist.min())][0]
@@ -1228,8 +1228,8 @@ def optimize_annulus(optrad, outann, verbose=0):
     """
 
     if outann <= round(2*optrad, 4):
-        print "Warning: There are known sources within the background annulus."
-        print "Use --hrbg to mask these out. (Will increase run times.)"
+        print("Warning: There are known sources within the background annulus.")
+        print("Use --hrbg to mask these out. (Will increase run times.)")
 
     return round(1.2*optrad, 4), round(2*optrad, 4)
 # ------------------------------------------------------------------------------
@@ -1265,8 +1265,8 @@ def suggest_parameters(band, skypos, verbose=0):
         pos = [mcat['ra'][ix].mean(), mcat['dec'][ix].mean()]
         radius = 2*mcat[band]['fwhm'][ix].mean()
         if verbose:
-            print 'Recentering on {pos}.'.format(pos=pos)
-            print 'Using aperture radius of {rad} degrees.'.format(rad=fwhm)
+            print('Recentering on {pos}.'.format(pos=pos))
+            print('Using aperture radius of {rad} degrees.'.format(rad=fwhm))
     else: # There is no known star at the target position...
         pos = skypos
         radius = gt.aper2deg(4)
